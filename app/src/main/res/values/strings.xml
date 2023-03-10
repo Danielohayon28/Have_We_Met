@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Have We Met</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_in">Sign In</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="have_we_met_qm">Have we met?</string>
+    <string name="full_name">Full Name</string>
+    <string name="username">User Name</string>
+    <string name="repeat_pass">Repeat Password</string>
+    <string name="greetings">Hi Daniel, Share your thoughts ...</string>
+    <string name="share">Share</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="close">Close</string>
+    <string name="open">open</string>
+</resources>

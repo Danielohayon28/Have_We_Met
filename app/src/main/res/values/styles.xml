@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--To keep the styles uniform throughout the app, we are using this file create styles-->
+
+    <style name="label_style_primary">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="label_style_small">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="input_style_primary">
+        <item name="android:background">@drawable/border_primary</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+</resources>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    tools:context=".LoginFragment">
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/have_we_met_qm"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:padding="15dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:background="@drawable/cyan_ball">
+
+    </TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="35sp"
+        android:textColor="@color/black"
+        android:text="@string/sign_in" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email"
+        style="@style/label_style_primary"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/input_style_primary"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/password"
+        style="@style/label_style_primary"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/input_style_primary">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/baseline_remove_red_eye_24"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in"
+        android:textAllCaps="false"
+        android:paddingVertical="15dp"/>
+
+    <TextView
+        android:id="@+id/tv_signup_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up"
+        style="@style/label_style_primary"
+        android:layout_gravity="end">
+    </TextView>
+
+</LinearLayout>

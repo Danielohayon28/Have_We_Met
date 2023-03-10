@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.project.havewemet.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_shareFragment"
+            app:destination="@id/shareFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shareFragment"
+        android:name="com.project.havewemet.ShareFragment"
+        android:label="fragment_share"
+        tools:layout="@layout/fragment_share" >
+        <action
+            android:id="@+id/action_shareFragment_to_viewStatusesFragment"
+            app:destination="@id/viewStatusesFragment" />
+        <action
+            android:id="@+id/action_shareFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.project.havewemet.SignUpFragment"
+        android:label="fragment_view_profile"
+        tools:layout="@layout/fragment_view_profile" >
+        <action
+            android:id="@+id/action_signUpFragment_to_shareFragment"
+            app:destination="@id/shareFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewStatusesFragment"
+        android:name="com.project.havewemet.ViewStatusesFragment"
+        android:label="fragment_view_statuses"
+        tools:layout="@layout/fragment_view_statuses" >
+        <action
+            android:id="@+id/action_viewStatusesFragment_to_viewProfileFragment"
+            app:destination="@id/viewProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.project.havewemet.EditProfileFragment"
+        android:label="EditProfileFragment" />
+    <fragment
+        android:id="@+id/viewProfileFragment"
+        android:name="com.project.havewemet.ViewProfileFragment"
+        android:label="ViewProfileFragment" />
+</navigation>

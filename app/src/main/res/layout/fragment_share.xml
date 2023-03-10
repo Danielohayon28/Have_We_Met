@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="50dp"
+    tools:context=".ShareFragment">
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:text="@string/greetings" />
+
+
+
+    <EditText
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/border_rounded"
+        android:padding="10dp"
+        android:hint="write..."
+        android:gravity="start" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/share"
+        style="@style/label_style_primary"
+        android:layout_gravity="end"
+        android:layout_marginTop="20dp">
+    </TextView>
+
+</LinearLayout>
