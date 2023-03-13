@@ -1,62 +1,62 @@
 package com.project.havewemet;
 
+import static com.project.havewemet.utils.Text.getStr;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SignUpFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.project.havewemet.databinding.FragmentSignUpBinding;
+import com.project.havewemet.model.AppUser;
+import com.project.havewemet.model.Model;
+
+
 public class SignUpFragment extends Fragment {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    public SignUpFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SignUpFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SignUpFragment newInstance(String param1, String param2) {
-        SignUpFragment fragment = new SignUpFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    private FragmentSignUpBinding binding;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up, container, false);
+
+        binding = FragmentSignUpBinding.inflate(inflater, container, false);
+
+        //sign up Button Click listener
+        binding.btnSignUp.setOnClickListener(view -> {
+            String email = getStr(binding.etEmail);
+            String name = getStr(binding.etFullname);
+            String username = getStr(binding.etUsername);
+            String pass = getStr(binding.etPass);
+            String repass = getStr(binding.etRepeatPass);
+
+            if (email.length() < 3 || !email.contains("@"))
+                binding.etEmail.setError("Invalid Email");
+            else if (name.length() < 3)
+                binding.etFullname.setError("Invalid Name");
+            else if (username.length() == 0)
+                binding.etUsername.setError("Username Required");
+            else if (pass.length() < 8)
+                binding.etPass.setError("Password length must be 8 at least!");
+            else if (!pass.equals(repass))
+                binding.etPass.setError("Passwords don't match");
+            else
+                Model.instance().addAppUser(new AppUser(Long.toString(System.currentTimeMillis()), name, username, "", System.currentTimeMillis()),
+                        data -> {
+                            Log.e("test", "usercreated");});
+        });
+
+        View view = binding.getRoot();
+        return view;
     }
+
 }

@@ -30,10 +30,11 @@ public class MainActivity extends AppCompatActivity {
             PopupMenu popupMenu = new PopupMenu(this, view);
             popupMenu.inflate(R.menu.main_menu);
             popupMenu.setOnMenuItemClickListener(menuItem -> {
+                Toast.makeText(this, "Coming Soon!", Toast.LENGTH_SHORT).show();
                 return true;
             }); // end of popup menu click listener
             popupMenu.show();
-        }); //end of ivMenu click listener,(lambda)
+        }); //end of ivMenu click listener
 
     }
 }

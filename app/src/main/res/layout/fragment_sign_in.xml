@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="20dp"
-    tools:context=".LoginFragment">
+    tools:context=".SignInFragment">
 
     <TextView
         android:layout_width="150dp"
@@ -36,6 +36,7 @@
         style="@style/label_style_primary"/>
 
     <EditText
+        android:id="@+id/et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/input_style_primary"/>
@@ -51,6 +52,7 @@
         android:layout_height="wrap_content"
         style="@style/input_style_primary">
         <EditText
+            android:id="@+id/et_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"/>
@@ -63,6 +65,7 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/btn_sign_in"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
