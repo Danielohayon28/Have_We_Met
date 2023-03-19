@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
+import com.project.havewemet.model.Model;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseApp.initializeApp(this);
         NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().findFragmentById(R.id.main_navhost);
 
         ImageView ivMenu = findViewById(R.id.iv_menu);
@@ -30,11 +34,15 @@ public class MainActivity extends AppCompatActivity {
             PopupMenu popupMenu = new PopupMenu(this, view);
             popupMenu.inflate(R.menu.main_menu);
             popupMenu.setOnMenuItemClickListener(menuItem -> {
+                switch (menuItem.getItemId()){
+                    case R.id.menu_signout:
+                        Model.instance().signout();
+                }
                 Toast.makeText(this, "Coming Soon!", Toast.LENGTH_SHORT).show();
                 return true;
             }); // end of popup menu click listener
             popupMenu.show();
-        }); //end of ivMenu click listener
+        }); //end of ivMenu click listener,(lambda)
 
     }
 }

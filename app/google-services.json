@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "403595279551",
+    "project_id": "havewemetdb",
+    "storage_bucket": "havewemetdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403595279551:android:555cdba4eee77c730b5a0a",
+        "android_client_info": {
+          "package_name": "com.project.havewemet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "403595279551-fo6mnas8dvjm6ibrkvghe28femca5ts8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKG87JttzX4ISXmJMBvM3tfUYgtor1g6A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "403595279551-fo6mnas8dvjm6ibrkvghe28femca5ts8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403595279551:android:6a6f2614d3c78e560b5a0a",
+        "android_client_info": {
+          "package_name": "com.project.havwwemet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "403595279551-fo6mnas8dvjm6ibrkvghe28femca5ts8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKG87JttzX4ISXmJMBvM3tfUYgtor1g6A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "403595279551-fo6mnas8dvjm6ibrkvghe28femca5ts8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

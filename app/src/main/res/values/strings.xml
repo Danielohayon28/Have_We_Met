@@ -15,4 +15,6 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="close">Close</string>
     <string name="open">open</string>
+    <string name="signing_in">Signing In...</string>
+    <string name="signing_up">Signing Up...</string>
 </resources>

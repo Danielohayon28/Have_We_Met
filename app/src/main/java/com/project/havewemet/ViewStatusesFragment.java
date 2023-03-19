@@ -1,64 +1,84 @@
 package com.project.havewemet;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ViewStatusesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.project.havewemet.databinding.FragmentViewProfileBinding;
+import com.project.havewemet.databinding.FragmentViewStatusesBinding;
+import com.project.havewemet.model.Model;
+import com.project.havewemet.model.Status;
+
+import java.util.LinkedList;
+import java.util.List;
+
 public class ViewStatusesFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private StatusRecyclerAdapter adapter;
+    private FragmentViewStatusesBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ViewStatusesFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ViewStatusesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ViewStatusesFragment newInstance(String param1, String param2) {
-        ViewStatusesFragment fragment = new ViewStatusesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private StatusListViewModel viewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_statuses, container, false);
+        binding = FragmentViewStatusesBinding.inflate(inflater, container, false);
+        View mainView = binding.getRoot();
+
+        binding.rvStatuses.setHasFixedSize(true);
+        binding.rvStatuses.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new StatusRecyclerAdapter(getLayoutInflater(), viewModel.getStatusData().getValue());
+        binding.rvStatuses.setAdapter(adapter);
+
+        binding.progressBar.setVisibility(View.GONE);
+
+        viewModel.getStatusData().observe(getViewLifecycleOwner(),list->{
+            adapter.setData(list);
+        });
+
+        Model.instance().EventStatusesListLoadingState.observe(getViewLifecycleOwner(),status->{
+            binding.srlStatuses.setRefreshing(status == Model.LoadingState.LOADING);
+        });
+
+        binding.srlStatuses.setOnRefreshListener(()->{
+            reloadData();
+        });
+            // todo: write code similar to this one as commented out
+//        LiveData<List<Movie>> data = MovieModel.instance.searchMoviesByTitle("avatar");
+//        data.observe(getViewLifecycleOwner(),list->{
+//            list.forEach(item->{
+//                Log.d("TAG","got movie: " + item.getTitle() + " " + item.getPoster());
+//            });
+//        });
+
+
+        return mainView;
+    }
+
+    void reloadData(){
+        Model.instance().refreshStatuses();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        viewModel = new ViewModelProvider(this).get(StatusListViewModel.class);
     }
 }

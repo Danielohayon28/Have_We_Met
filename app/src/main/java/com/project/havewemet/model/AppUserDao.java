@@ -24,6 +24,4 @@ public interface AppUserDao {
     @Query("select * from AppUser where name = :name")
     AppUser getUserByName(String name);
 
-
-
 }

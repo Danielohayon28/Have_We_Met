@@ -38,6 +38,7 @@
                 android:id="@+id/et_fullname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 style="@style/input_style_primary"/>
 
             <TextView
@@ -50,6 +51,7 @@
                 android:id="@+id/et_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 style="@style/input_style_primary"/>
 
             <TextView
@@ -60,6 +62,7 @@
 
             <EditText
                 android:id="@+id/et_email"
+                android:inputType="textEmailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/input_style_primary"/>
@@ -75,11 +78,13 @@
                 android:layout_height="wrap_content"
                 style="@style/input_style_primary">
                 <EditText
+                    android:inputType="textPassword"
                     android:id="@+id/et_pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"/>
                 <ImageView
+                    android:id="@+id/iv_eye_pass"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@drawable/baseline_remove_red_eye_24"
@@ -94,6 +99,7 @@
                 style="@style/label_style_primary"/>
 
             <EditText
+                android:inputType="textPassword"
                 android:id="@+id/et_repeat_pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,7 +110,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/sign_in"
+                android:text="@string/sign_up"
                 android:textAllCaps="false"
                 android:paddingVertical="15dp"/>
         </LinearLayout>

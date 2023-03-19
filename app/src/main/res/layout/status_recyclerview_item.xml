@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_margin="5dp">
 
@@ -12,17 +12,20 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/iv_avatar_rv"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="10dp"
             android:src="@drawable/person_unknown"/>
         <TextView
+            android:id="@+id/tv_name_rv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Name"
             android:layout_weight="1"
             style="@style/label_style_small" />
         <TextView
+            android:id="@+id/tv_time_rv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Time"
@@ -31,6 +34,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_status_rv"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="70dp"
