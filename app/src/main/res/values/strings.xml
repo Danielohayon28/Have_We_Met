@@ -17,4 +17,6 @@
     <string name="open">open</string>
     <string name="signing_in">Signing In...</string>
     <string name="signing_up">Signing Up...</string>
+    <string name="skip_share">skip</string>
+    <string name="sharing">Sharing...</string>
 </resources>

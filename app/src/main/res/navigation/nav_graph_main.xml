@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/signinFragment">
 
     <fragment
-        android:id="@+id/loginFragment"
+        android:id="@+id/signinFragment"
         android:name="com.project.havewemet.SignInFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_sign_in" >
@@ -54,5 +54,17 @@
     <fragment
         android:id="@+id/viewProfileFragment"
         android:name="com.project.havewemet.ViewProfileFragment"
-        android:label="ViewProfileFragment" />
+        android:label="ViewProfileFragment">
+        <argument
+            android:name="user_id"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ExternalApiFragment"
+        android:name="com.project.havewemet.ExternalApiFragment"
+        android:label="ExternalApiFragment">
+
+    </fragment>
+
 </navigation>

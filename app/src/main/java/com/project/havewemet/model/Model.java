@@ -1,8 +1,10 @@
 package com.project.havewemet.model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
@@ -17,14 +19,34 @@ import java.util.concurrent.Executors;
 public class Model {
 
     private LiveData<List<Status>> liveStatusList;
+    private LiveData<List<AppUser>> liveAppUserList;
     public LiveData<List<Status>> getAllStatuses() {
         if (liveStatusList == null){
             liveStatusList = localDb.statusDao().getAllStatuses();
-            refreshStatuses();
         }
+        //both statuses and the authors need to be refreshed because, there is aggregation
+        refreshStatuses();
+        getAllUsers();
+
         return liveStatusList;
     }
 
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor spEditor;
+
+    private Model(){
+        sharedPref = MyApplication.getMyContext().getSharedPreferences("signed_in_user_info", Context.MODE_PRIVATE);
+        spEditor = sharedPref.edit();
+    }
+
+    public LiveData<List<AppUser>> getAllUsers(){
+        //when gettings statuses, associated users also need to be fetched
+        if (liveAppUserList == null){
+            liveAppUserList = localDb.appUserDao().getAllUsers();
+        }
+        refreshAppUsers();
+        return liveAppUserList;
+    }
     public enum LoadingState{
         LOADING, NOT_LOADING
     }
@@ -51,18 +73,12 @@ public class Model {
     }
 
     public void refreshStatuses() {  // refreshes the posts/statuses of users
-        Log.e("test", "refresh statuses called");
         EventStatusesListLoadingState.setValue(LoadingState.LOADING);
         // get local last update
         Long localLastUpdate = Status.getLocalLastUpdate();
         // get all updated recorde from firebase since local last update
         fbModel.getAllStatusesSince(localLastUpdate, list->{
             executor.execute(()->{
-                //todo: remove the Toast from here, its just for testing purpose
-                Log.e("size", "size: "+list.size());
-                new Handler(Looper.getMainLooper()).post(()->{
-                    Toast.makeText(MyApplication.getMyContext(), "size: "+list.size(), Toast.LENGTH_SHORT).show();
-                });
                 Long time = localLastUpdate;
                 for(Status status: list){
                     // insert new records into ROOM
@@ -109,31 +125,62 @@ public class Model {
         });
     }
 
-
-
-    public void addAppUser(AppUser appUser, Listener<Void> listener){
-        // TODO: firebase adding will be handled later
-        executor.execute(()->{
-            localDb.appUserDao().insertAll(appUser);
-            listener.onComplete(null);  //as nothing is need to be returned (as interface) on adding so Void
-        });
+    public LiveData<List<Status>> getAllStatusesByUser(String userId){
+        return localDb.statusDao().getAllStatusesByUser(userId);
     }
 
-    public void getUserByName(String name, Listener<AppUser> listener){
-        executor.execute(()->{
-            listener.onComplete(localDb.appUserDao().getUserByName(name));
-        });
+    private void saveSigningInfoLocally(AppUser appUser){
+        spEditor.putString(AppUser.ID, appUser.getId());
+        spEditor.putString(AppUser.NAME, appUser.getName());
+        spEditor.putString(AppUser.USERNAME, appUser.getUsername());
+        spEditor.putString(AppUser.AVATAR_URL, appUser.getAvatarUrl());
+        spEditor.commit();
     }
-
     public void signIn(String email, String pass, Model.Listener<Boolean> listener){
-        fbModel.signIn(email, pass, listener);
+        fbModel.signIn(email, pass, bool->{
+            //we need to keep the info of signed in user to sharedpref for easy fast access
+            if (bool){
+                fbModel.getUserById(fbModel.getFirebaseUser().getUid(), appUser->{
+                    saveSigningInfoLocally(appUser);
+                    listener.onComplete(true);
+                });
+            }else{
+                listener.onComplete(false);
+            }
+        });
     }
+
 
     // as we are storing extra info of appuser, so pass the appUser as well
     public void signUp(String email, String pass, AppUser appUser, Model.Listener<Boolean> listener){
-        fbModel.signUp(email, pass, appUser, listener);
+        fbModel.signUp(email, pass, appUser, bool->{
+            if (bool){
+                fbModel.getUserById(fbModel.getFirebaseUser().getUid(), appUserloggedIn->{
+                    saveSigningInfoLocally(appUserloggedIn);
+                    listener.onComplete(true);
+                });
+            }else{
+                listener.onComplete(false);
+            }
+        });
     }
 
+    public AppUser getSignedInAppUser(){
+        AppUser appUser = new AppUser();
+        appUser.setId(sharedPref.getString(AppUser.ID, ""));
+        appUser.setName(sharedPref.getString(AppUser.NAME, ""));
+        appUser.setUsername(sharedPref.getString(AppUser.USERNAME, ""));
+        appUser.setAvatarUrl(sharedPref.getString(AppUser.AVATAR_URL, ""));
+        return appUser;
+    }
+
+    public String getSignedInEmail(){
+        return fbModel.getFirebaseUser().getEmail();
+    }
+
+    public void editProfile(AppUser appUser, String email, Listener<Boolean> listener){
+        fbModel.editProfile(appUser, email, listener);
+    }
 
     public boolean isSignedIn(){
         return fbModel.getFirebaseUser() != null;
@@ -146,10 +193,22 @@ public class Model {
         });
     }
 
+    public void getUserById(String userId, Listener<AppUser> listener){
+        Executors.newSingleThreadExecutor().execute(()->{
+            AppUser user = localDb.appUserDao().getUserById(userId);
+            listener.onComplete(user);
+        });
+    }
+
+
+    public void uploadImage(String name, Bitmap bitmap, Listener<String> listener) {
+        fbModel.uploadImage(name,bitmap,listener);
+    }
 
     public void signout() {
         fbModel.signout();
     }
+
     public String getUserId(){
         return fbModel.getFirebaseUser().getUid();
     }

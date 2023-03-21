@@ -31,18 +31,26 @@ public class ShareFragment extends Fragment {
         binding = FragmentShareBinding.inflate(inflater, container, false);
         View thisView = binding.getRoot();
 
+        String nameOfUser = Model.instance().getSignedInAppUser().getName();
+        binding.tvGreetings.setText(String.format("Hi %s, Share your thoughts ...", nameOfUser));
+
         binding.tvStatus.setOnClickListener(view -> {
             String statusText = getStr(binding.etStatus);
             if (statusText.length() == 0)
                 binding.etStatus.setError("Enter your status here!");
             else{
                 //share and move to the next page
+                binding.tvStatus.setText(R.string.sharing);
                 Status status = new Status(Long.toString(System.currentTimeMillis()),
                         Model.instance().getUserId(), statusText);
                 Model.instance().addStatus(status, nothing ->{
                     Navigation.findNavController(thisView).navigate(R.id.action_shareFragment_to_viewStatusesFragment);
                 });
             }
+        });
+
+        binding.tvSkipShare.setOnClickListener(view -> {
+            Navigation.findNavController(thisView).navigate(R.id.action_shareFragment_to_viewStatusesFragment);
         });
 
         return thisView;

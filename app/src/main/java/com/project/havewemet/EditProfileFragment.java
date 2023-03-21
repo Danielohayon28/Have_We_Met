@@ -1,64 +1,68 @@
 package com.project.havewemet;
 
+import static com.project.havewemet.utils.Text.getStr;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EditProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.bumptech.glide.Glide;
+import com.project.havewemet.databinding.FragmentEditProfileBinding;
+import com.project.havewemet.model.AppUser;
+import com.project.havewemet.model.Model;
+
 public class EditProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentEditProfileBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public EditProfileFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditProfileFragment newInstance(String param1, String param2) {
-        EditProfileFragment fragment = new EditProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        binding = FragmentEditProfileBinding.inflate(inflater, container, false);
+
+        handler = new Handler(Looper.getMainLooper());
+        View mainView = binding.getRoot();
+        AppUser appUser = Model.instance().getSignedInAppUser();
+        handler.post(()->{
+            binding.etEditName.setText(appUser.getName());
+            binding.etEditUsername.setText(appUser.getUsername());
+            binding.etEditEmail.setText(Model.instance().getSignedInEmail());
+
+            binding.tvSaveChangesEdit.setOnClickListener(view -> {
+                String name = getStr(binding.etEditName );
+                String username = getStr(binding.etEditUsername);
+                String email = getStr(binding.etEditEmail);
+
+                appUser.setName(name);
+                appUser.setUsername(username); //update the appUser info to update it
+                Model.instance().editProfile(appUser, email, bool -> {
+                    Toast.makeText(MyApplication.getMyContext(),bool?"Profile Updated Successfully!":"Profile Update Failed!" , Toast.LENGTH_SHORT).show();
+                });
+            });
+
+            Glide.with(MyApplication.getMyContext())
+                    .load(appUser.avatarUrl)
+                    .circleCrop()
+                    .into(binding.ivAvatarEdit);
+
+            Model.instance().refreshStatuses();
+        });
+
+        return mainView;
     }
 }

@@ -6,6 +6,7 @@ import android.app.Application;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.os.Handler;
@@ -16,8 +17,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.havewemet.databinding.FragmentSignInBinding;
+import com.project.havewemet.model.AppUser;
 import com.project.havewemet.model.Model;
+import com.project.havewemet.model.Status;
 
 public class SignInFragment extends Fragment {
 
@@ -54,14 +58,12 @@ public class SignInFragment extends Fragment {
                 binding.btnSignIn.setText(R.string.signing_in);
                 Model.instance().signIn(email, pass, bool -> {
                     // now user can share the status
-                    if (bool){
-                        Navigation.findNavController(mainView).navigate(R.id.action_loginFragment_to_shareFragment);
-                        binding.btnSignIn.setEnabled(true);
-                        binding.btnSignIn.setText(R.string.sign_in);
-                    }
+                    if (bool)
+                        moveToNextFragment();
                     else
                         Toast.makeText(MyApplication.getMyContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
-
+                    binding.btnSignIn.setEnabled(true);
+                    binding.btnSignIn.setText(R.string.sign_in);
                 });
             }
         });
@@ -70,13 +72,25 @@ public class SignInFragment extends Fragment {
         //if user is already signed he/she does not need to signin again
 
         new Handler(Looper.getMainLooper()).post(()->{
-            if (Model.instance().isSignedIn()){
-                Navigation.findNavController(mainView).navigate(R.id.action_loginFragment_to_shareFragment);
-                Navigation.findNavController(mainView).popBackStack(); //don't come back to sign in screen until logout
-            }
+            if (Model.instance().isSignedIn())
+                moveToNextFragment();
         });
         //to complete this function we have passed the navigation on Handler thread
 
         return mainView;
     }
+
+    private void moveToNextFragment(){
+        NavController navController = Navigation.findNavController(binding.getRoot());
+        navController.popBackStack(R.id.signinFragment, true);
+        navController.navigate(R.id.shareFragment);
+    }
 }
+
+//    lse {
+//        Toast.makeText(MyApplication.getMyContext(), "Authentication succeeded", Toast.LENGTH_SHORT).show();
+//        Intent intent = new Intent(MyApplication.getMyContext(), MainActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+//        getActivity().finish();
+//    }

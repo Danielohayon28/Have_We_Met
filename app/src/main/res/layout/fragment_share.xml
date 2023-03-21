@@ -8,6 +8,7 @@
     tools:context=".ShareFragment">
 
     <TextView
+        android:id="@+id/tv_greetings"
         android:layout_marginTop="20dp"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
@@ -37,5 +38,16 @@
         android:layout_gravity="end"
         android:layout_marginTop="20dp">
     </TextView>
+
+    <TextView
+        android:id="@+id/tv_skip_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/skip_share"
+        style="@style/label_style_primary"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp">
+    </TextView>
+
 
 </LinearLayout>

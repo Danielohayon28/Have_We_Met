@@ -17,4 +17,7 @@ public interface StatusDao {
     @Query("select * from Status")
     LiveData<List<Status>> getAllStatuses();
 
+    @Query("select * from Status where userId=:userID")
+    LiveData<List<Status>> getAllStatusesByUser(String userID);
+
 }

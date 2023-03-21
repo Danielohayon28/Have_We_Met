@@ -6,4 +6,7 @@
     <item android:id="@+id/menu_signout"
         android:title="Sign out">
     </item>
+    <item android:id="@+id/menu_api"
+        android:title="API">
+    </item>
 </menu>
